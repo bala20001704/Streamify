@@ -1,15 +1,17 @@
-import express from "express"
+import express from "express";
 
 import { signup, login, logout, onboard } from "../controllers/auth.controller.js";
 
-const router = express.Router()
+import { protectRoute } from "../middleware/auth.middleware.js";
 
-router.post("/signup", signup)
+const router = express.Router();
 
-router.post("/login",login)
+router.post("/signup", signup);
 
-router.post("/logout", logout)
+router.post("/login", login);
 
-router.post("/onboarding", onboard)
+router.post("/logout", logout);
 
-export default router
+router.post("/onboarding", protectRoute, onboard);
+
+export default router;
