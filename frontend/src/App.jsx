@@ -7,6 +7,7 @@ import NotificationsPage from "./pages/NotificationsPage";
 import CallPage from "./pages/CallPage";
 import ChatPage from "./pages/ChatPage";
 import OnboardingPage from "./pages/OnboardingPage";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
       </Routes>
+      <Toaster />
     </div>
   );
 };
