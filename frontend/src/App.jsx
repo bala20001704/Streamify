@@ -1,31 +1,22 @@
-import React from "react";
-import { Route, Routes, Navigate } from "react-router";
-import HomePage from "./pages/HomePage";
-import SignUpPage from "./pages/SignUpPage";
-import LoginPage from "./pages/LoginPage";
-import NotificationsPage from "./pages/NotificationsPage";
+import { Toaster } from "react-hot-toast";
+import { Navigate, Route, Routes } from "react-router";
+import PageLoader from "./components/pageloader";
+import useAuthUser from "./hooks/useAuthUser";
 import CallPage from "./pages/CallPage";
 import ChatPage from "./pages/ChatPage";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import NotificationsPage from "./pages/NotificationsPage";
 import OnboardingPage from "./pages/OnboardingPage";
-import { Toaster } from "react-hot-toast";
-import { useQuery } from "@tanstack/react-query";
-import { axiosInstance } from "./lib/axios";
+import SignUpPage from "./pages/SignUpPage";
 
 const App = () => {
-  const {
-    data: authData,
-    isloading,
-    error,
-  } = useQuery({
-    queryKey: ["authUser"],
-    queryFn: async () => {
-      const res = await axiosInstance.get("/auth/me");
-      return res.data;
-    },
-    retry: false, // auth checking whether user is auth or not whole block
-  });
+  const { isLoading, authUser } = useAuthUser();
 
-  const authUser = authData?.user;
+  const isAuthenticated = Boolean(authUser);
+  const isOnboarded = authUser?.isOnboarded;
+
+  if (isLoading) return <PageLoader />;
 
   return (
     <div className="h-screen" data-theme="forest">
